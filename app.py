@@ -398,7 +398,7 @@ elif page == "performance":
         fig.update_layout(xaxis_title="Regularisation strength C (log scale)", yaxis_title="Validation macro-F1")
         fig.update_xaxes(type="log")
         show(style(fig.update_layout(title="Hyper-parameter tuning"), 320))
-        st.caption(f"Selected: **{M['selected_model']}** (C = {M['best_C']}) - within 0.3 pt of the best model, and it provides calibrated probabilities and interpretable coefficients.")
+        st.caption(f"Selected: **{M['selected_model']}** (C = {M['best_C']}) - best tuned validation macro-F1 (Logistic Regression {tune[tune.model == 'Logistic Regression'].macro_f1.max():.3f} vs Linear SVM {tune[tune.model == 'Linear SVM'].macro_f1.max():.3f}); it also provides calibrated probabilities and interpretable coefficients.")
     with t3:
         sc = load_csv("scalability.csv")
         if sc is None:
@@ -409,21 +409,24 @@ elif page == "performance":
                 fig = go.Figure()
                 fig.add_trace(go.Scatter(x=sc.train_reviews, y=sc.macro_f1, mode="lines+markers", name="Macro F1", line=dict(color="#4F46E5", width=3), marker=dict(size=9)))
                 fig.add_trace(go.Scatter(x=sc.train_reviews, y=sc.accuracy, mode="lines+markers", name="Accuracy", line=dict(color="#10B981", width=3), marker=dict(size=9)))
-                fig.update_xaxes(type="log", title="Training reviews")
+                fig.update_xaxes(type="log", title="Training reviews", tickvals=sc.train_reviews, ticktext=[f"{v / 1000:.0f}k" for v in sc.train_reviews])
                 show(style(fig.update_layout(title="More data → better model"), 340))
             with b:
                 fig = go.Figure(go.Scatter(x=sc.train_reviews, y=sc.vectorize_s + sc.fit_s, mode="lines+markers", line=dict(color="#F59E0B", width=3), marker=dict(size=9)))
-                fig.update_xaxes(type="log", title="Training reviews")
-                fig.update_yaxes(type="log", title="Seconds")
+                fig.update_xaxes(type="log", title="Training reviews", tickvals=sc.train_reviews, ticktext=[f"{v / 1000:.0f}k" for v in sc.train_reviews])
+                fig.update_yaxes(type="log", title="Seconds", tickvals=[1, 2, 5, 10, 20, 50], ticktext=["1", "2", "5", "10", "20", "50"])
                 show(style(fig.update_layout(title="Training time grows ~linearly"), 340, legend=False))
         st_json = OUT / "streaming.json"
         if st_json.exists():
             s = json.loads(st_json.read_text())
             st.markdown("#### Out-of-core streaming training")
-            k = st.columns(3)
-            k[0].markdown(kpi("Streamed", f"{s['reviews_streamed']:,}", f"in chunks of {s['chunk_size']:,}", "#0EA5E9"), unsafe_allow_html=True)
-            k[1].markdown(kpi("Streaming accuracy", f"{s['stream_accuracy']:.1%}", f"in-memory model: {s['inmem_accuracy']:.1%}"), unsafe_allow_html=True)
-            k[2].markdown(kpi("Streaming macro-F1", f"{s['stream_macro_f1']:.3f}", f"in-memory model: {s['inmem_macro_f1']:.3f}", "#7C3AED"), unsafe_allow_html=True)
+            st.caption("The raw file is sorted by star rating, so a naive single pass forgets the early classes. An out-of-core shuffle-shard fixes it.")
+            k = st.columns(4)
+            k[0].markdown(kpi("Streamed", f"{s['reviews_streamed']:,}", f"chunks of {s['chunk_size']:,}", "#0EA5E9"), unsafe_allow_html=True)
+            if "naive_accuracy" in s:
+                k[1].markdown(kpi("Naive (sorted file)", f"{s['naive_accuracy']:.1%}", f"macro-F1 {s['naive_macro_f1']:.2f} - collapses", "#EF4444"), unsafe_allow_html=True)
+            k[2].markdown(kpi("Shuffle-shard stream", f"{s['stream_accuracy']:.1%}", f"macro-F1 {s['stream_macro_f1']:.3f}", "#10B981"), unsafe_allow_html=True)
+            k[3].markdown(kpi("In-memory model", f"{s['inmem_accuracy']:.1%}", f"macro-F1 {s['inmem_macro_f1']:.3f}", "#7C3AED"), unsafe_allow_html=True)
     with t4:
         ab = load_csv("ablation.csv")
         if ab is not None:

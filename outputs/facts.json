@@ -1,0 +1,95 @@
+{
+  "raw_rows": 200000,
+  "unique_rows": 199426,
+  "batch": {
+    "reviews": 39886,
+    "seconds": 5.446388999931514,
+    "reviews_per_second": 7323.384356222361
+  },
+  "latency_ms": {
+    "mean": 4.459747998819997,
+    "median": 4.421400022692978,
+    "p95": 5.052944831550121,
+    "n": 300
+  },
+  "errors": {
+    "total": 11496,
+    "neutral_involved_share": 0.8556019485038274,
+    "pairs": {
+      "negative->neutral": 3414,
+      "positive->neutral": 2506,
+      "neutral->negative": 2383,
+      "neutral->positive": 1533,
+      "positive->negative": 888,
+      "negative->positive": 772
+    }
+  },
+  "accuracy_by_length": {
+    "<=10": {
+      "accuracy": 0.7528263103802673,
+      "n": 7784
+    },
+    "11-25": {
+      "accuracy": 0.7171877359915421,
+      "n": 13242
+    },
+    "26-50": {
+      "accuracy": 0.7074768055302892,
+      "n": 10994
+    },
+    "51-100": {
+      "accuracy": 0.674388040085428,
+      "n": 6087
+    },
+    ">100": {
+      "accuracy": 0.6464305789769533,
+      "n": 1779
+    }
+  },
+  "test_matrix": {
+    "rows": 39886,
+    "features": 150708,
+    "nnz": 876480,
+    "sparsity": 0.9998541907019607,
+    "sparse_mb": 7.171388,
+    "dense_gb": 24.044557152,
+    "avg_nnz_per_review": 21.974627688913404
+  },
+  "model_file_mb": 5.314925,
+  "example": {
+    "text": "I DON'T like it!! Can't recommend, the seller never replied.",
+    "cleaned": "i do not like it can not recommend the seller never replied",
+    "predicted": "negative",
+    "proba": {
+      "negative": 0.9479822396548891,
+      "neutral": 0.03872582806677777,
+      "positive": 0.01329193227833316
+    },
+    "top_terms": [
+      {
+        "term": "not recommend",
+        "contribution": 0.9901037252533706
+      },
+      {
+        "term": "not",
+        "contribution": 0.7797453576903319
+      },
+      {
+        "term": "never",
+        "contribution": 0.6088601471630238
+      },
+      {
+        "term": "seller",
+        "contribution": 0.2543234673837792
+      },
+      {
+        "term": "not like",
+        "contribution": 0.19605374256741157
+      },
+      {
+        "term": "seller never",
+        "contribution": 0.14465395928084193
+      }
+    ]
+  }
+}

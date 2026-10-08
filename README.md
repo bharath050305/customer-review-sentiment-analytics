@@ -10,7 +10,7 @@ Classifies **~200,000 Amazon product reviews** as **positive, neutral or negativ
 </p>
 
 ## ✨ Highlights
-- **Real big data:** 199,426 unique reviews, a 150k-feature **sparse** TF-IDF matrix (99.9 %+ zeros), scalability study and **out-of-core streaming** training.
+- **Real big data:** 199,426 unique reviews, a 150k-feature **sparse** TF-IDF matrix (99.9 %+ zeros), scalability study and **out-of-core streaming** training (found that the raw file is sorted by rating - a naive stream scores 40 %, an out-of-core shuffle-shard restores 71 %).
 - **Rigorous evaluation:** stratified 70/10/20 split, models compared and tuned on validation only, test set used **once**.
 - **Six models compared:** majority baseline, Multinomial NB, Complement NB, SGD, Linear SVM, Logistic Regression.
 - **Smart NLP:** custom cleaning that **keeps negations** (*not good ≠ good*); an ablation study proves it helps.
@@ -90,8 +90,11 @@ Try the **Batch Analysis** page with `data/demo_reviews.csv` (42 hand-written re
 - Add aspect-based sentiment, multilingual support, and a Spark/Dask deployment for multi-machine scale.
 
 ## 📄 Documentation
-- [`docs/Customer_Review_Sentiment_Analytics_Report.docx`](docs/Customer_Review_Sentiment_Analytics_Report.docx) (PDF alongside) - full project report.
-- [`docs/Presentation_Script.docx`](docs/Presentation_Script.docx) (PDF alongside) - presentation script, demo walkthrough and viva Q&A.
+| Document | Contents |
+|---|---|
+| [Project report](docs/Customer_Review_Sentiment_Analytics_Report.pdf) ([.docx](docs/Customer_Review_Sentiment_Analytics_Report.docx)) | 47-page report: 11 chapters, 22 figures, 31 tables, references. |
+| [Presentation script](docs/Presentation_Script.pdf) ([.docx](docs/Presentation_Script.docx)) | Opening speech, 8-minute demo walkthrough, 35 viva questions with answers. |
+| [Concepts & business guide](docs/Concepts_and_Business_Guide.pdf) ([.docx](docs/Concepts_and_Business_Guide.docx)) | 21 concepts explained simply, pitch scripts, and how to turn the project into a business. |
 
 ## 📚 Data source
 Amazon product reviews (English) - Hugging Face dataset [`SetFit/amazon_reviews_multi_en`](https://huggingface.co/datasets/SetFit/amazon_reviews_multi_en), derived from the *Multilingual Amazon Reviews Corpus* (Keung et al., EMNLP 2020). Used for educational purposes.

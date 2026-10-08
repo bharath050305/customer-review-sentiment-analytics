@@ -1,0 +1,12 @@
+{
+  "reviews_streamed": 159885,
+  "chunk_size": 20000,
+  "shards": 8,
+  "seconds": 47.40499782562256,
+  "stream_accuracy": 0.7141603570174999,
+  "stream_macro_f1": 0.6537918052312149,
+  "naive_accuracy": 0.3996389710675425,
+  "naive_macro_f1": 0.19035335984427804,
+  "inmem_accuracy": 0.7117785689214261,
+  "inmem_macro_f1": 0.6756827543796549
+}
