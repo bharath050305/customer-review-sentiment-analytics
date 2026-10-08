@@ -1,0 +1,23 @@
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+.ipynb_checkpoints/
+
+# Large raw dataset (re-download with: python -m src.download_data)
+data/amazon_reviews_raw.jsonl
+
+# Logs / local scratch
+outputs/*.log
+outputs/*_log.txt
+*.log
+.claude/
+
+# OS / editor
+.DS_Store
+Thumbs.db
+.vscode/
+
+outputs/junit.xml
+outputs/*.err
